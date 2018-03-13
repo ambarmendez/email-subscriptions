@@ -19,6 +19,12 @@ return [
         'secret' => env('MAILGUN_SECRET'),
     ],
 
+    'mailchimp' => [
+        'domain' => env('MAILCHIMP_DOMAIN'),
+        'secret' => env('MAILCHIMP_SECRET'),
+        'list_id' => env('MAILCHIMP_LIST_ID')
+    ],
+    
     'ses' => [
         'key' => env('SES_KEY'),
         'secret' => env('SES_SECRET'),
