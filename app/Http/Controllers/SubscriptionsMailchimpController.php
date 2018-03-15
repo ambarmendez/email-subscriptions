@@ -8,17 +8,24 @@ use GuzzleHttp\Client;
 class SubscriptionsMailchimpController extends Controller
 {
     public function store(){
-		$userData = '{"members": [{
-			"email_address": "testing01@example.com", 
-			"status_if_new": "subscribed"}], 
-		"update_existing": true}';
+		$data = [
+            'members' => [
+                [
+                    'email_address' => request('inputEmail'), 
+                    'status_if_new' => 'subscribed'
+                ]
+            ], 
+            'update_existing' => true
+        ];
+
+        $userData = json_encode($data); 
 		 
         $curl_options = array
         (
         	CURLOPT_USERPWD => 'user:' . config('services.mailchimp.secret'),
         	CURLOPT_VERBOSE => true,
         	CURLOPT_HTTPHEADER => array('Content-Type: application/json'),
-        	CURLOPT_POSTFIELDS => $userData//'{"members": [{"email_address": "probando@testing.com", "status_if_new": "subscribed"}], "update_existing": true}'
+        	CURLOPT_POSTFIELDS => $userData
         );
 
         $client = new Client();
@@ -26,6 +33,6 @@ class SubscriptionsMailchimpController extends Controller
             'curl' => $curl_options
         ]);
 
-        dd($response);
+        dd(json_decode(strval($response->getBody())));
     }
 }
